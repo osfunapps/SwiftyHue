@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = "SwiftyHue"
-  s.version          = "0.5.9"
+  s.version          = "0.6.0"
   s.summary          = "Philips Hue SDK written in swift."
 
 # This description is used to generate tags and improve search results.
@@ -43,7 +43,7 @@ Pod::Spec.new do |s|
     base.osx.deployment_target = '10.11'
 
     base.source_files = 'Sources/Base/**/*.{h,swift}'
-    base.dependency 'Alamofire', '4.8.0'
+    base.dependency 'Alamofire', '5.2'
     base.dependency 'Gloss', '3.1.0'
   end
 
@@ -54,7 +54,7 @@ Pod::Spec.new do |s|
     bridgeservices.tvos.deployment_target = '9.0'
     bridgeservices.osx.deployment_target = '10.11'
 
-    bridgeservices.dependency 'Alamofire', '4.8.0'
+    bridgeservices.dependency 'Alamofire', '5.2.0'
     bridgeservices.dependency 'Gloss', '3.1.0'
     bridgeservices.dependency 'CocoaAsyncSocket', '7.6.3'
 
