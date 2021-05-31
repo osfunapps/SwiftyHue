@@ -53,7 +53,7 @@ public class TestRequester {
         let parameters = lightState.toJSON()!
         let url = "http://\(bridgeIp)/api/\(bridgeAcc)/groups/1/action"
 
-        Alamofire.request(url, method: .put, parameters: parameters, encoding: JSONEncoding.default)
+        AF.request(url, method: .put, parameters: parameters, encoding: JSONEncoding.default)
             .responseJSON { response in
         
                 print(response)
@@ -134,10 +134,10 @@ public class TestRequester {
 //    }
     
     public func requestGroups() {
-        Alamofire.request("http://\(bridgeIp)/api/\(bridgeAcc)/groups", parameters: nil)
+        AF.request("http://\(bridgeIp)/api/\(bridgeAcc)/groups", parameters: nil)
         .responseJSON { response in
-            
-            if let resultValueJSON = response.result.value as? JSON {
+            if case .success(let data) = response.result {
+            if let resultValueJSON = data as? JSON {
 
                 let groupsDict = Group.dictionaryFromResourcesJSON(resultValueJSON)
             
@@ -146,14 +146,15 @@ public class TestRequester {
                     print("\(group.0) \(group.1.name)")
                 }
             }
+            }
         }
     }
     
     public func requestScenes() {
-        Alamofire.request("http://\(bridgeIp)/api/\(bridgeAcc)/scenes", parameters: nil)
+        AF.request("http://\(bridgeIp)/api/\(bridgeAcc)/scenes", parameters: nil)
             .responseJSON { response in
-                
-                if let resultValueJSON = response.result.value as? JSON {
+                if case .success(let data) = response.result {
+                if let resultValueJSON = data as? JSON {
                     
                     let scenesDict = PartialScene.dictionaryFromResourcesJSON(resultValueJSON)
                     print(scenesDict)
@@ -162,14 +163,15 @@ public class TestRequester {
                         print("\(scene.0) \(scene.1.name)")
                     }
                 }
+                }
         }
     }
     
     public func requestRules() {
-        Alamofire.request("http://\(bridgeIp)/api/\(bridgeAcc)/rules", parameters: nil)
+        AF.request("http://\(bridgeIp)/api/\(bridgeAcc)/rules", parameters: nil)
             .responseJSON { response in
-                
-                if let resultValueJSON = response.result.value as? JSON {
+                if case .success(let data) = response.result {
+                if let resultValueJSON = data as? JSON {
                     
                     let rulesDict = Rule.dictionaryFromResourcesJSON(resultValueJSON)
                     print(rulesDict)
@@ -177,6 +179,7 @@ public class TestRequester {
                         
                         print("\(rule.0) \(rule.1.name)")
                     }
+                }
                 }
         }
     }
@@ -198,10 +201,10 @@ public class TestRequester {
 //    }
     
     public func requestSchedules() {
-        Alamofire.request("http://\(bridgeIp)/api/\(bridgeAcc)/schedules", parameters: nil)
+        AF.request("http://\(bridgeIp)/api/\(bridgeAcc)/schedules", parameters: nil)
             .responseJSON { response in
-                
-                if let resultValueJSON = response.result.value as? JSON {
+                if case .success(let data) = response.result {
+                if let resultValueJSON = data as? JSON {
                     
                     let schedulesDict = Schedule.dictionaryFromResourcesJSON(resultValueJSON)
                     print(schedulesDict)
@@ -210,42 +213,46 @@ public class TestRequester {
                         print("\(schedule.0) \(schedule.1.name)")
                     }
                 }
+                }
         }
     }
     
     public func requestBridgeConfiguration() {
         
-        Alamofire.request("http://\(bridgeIp)/api/\(bridgeAcc)/config", parameters: nil)
+        AF.request("http://\(bridgeIp)/api/\(bridgeAcc)/config", parameters: nil)
             .responseJSON { response in
-                
-                if let resultValueJSON = response.result.value as? JSON {
+                if case .success(let data) = response.result {
+                if let resultValueJSON = data as? JSON {
                     
                     let groupsDict = BridgeConfiguration(json: resultValueJSON)
                     print(groupsDict?.toJSON() as Any)
+                }
                 }
         }
     }
     
     public func requestLights() {
-        Alamofire.request("http://\(bridgeIp)/api/\(bridgeAcc)/lights", parameters: nil)
+        AF.request("http://\(bridgeIp)/api/\(bridgeAcc)/lights", parameters: nil)
             .responseJSON { response in
-                
-            if let resultValueJSON = response.result.value as? JSON {
+                if case .success(let data) = response.result {
+            if let resultValueJSON = data as? JSON {
                 
                 let lightsDict = Light.dictionaryFromResourcesJSON(resultValueJSON)
                 print(lightsDict)
             }
+                }
         }
     }
     
     public func requestError() {
-        Alamofire.request("http://\(bridgeIp)/api/\(bridgeAcc)/giveMeAError", parameters: nil)
+        AF.request("http://\(bridgeIp)/api/\(bridgeAcc)/giveMeAError", parameters: nil)
             .responseJSON { response in
-                
-                if let resultValueJSON = response.result.value as? [JSON] {
+                if case .success(let data) = response.result {
+                if let resultValueJSON = data as? [JSON] {
                     
                     let errors = [HueError].from(jsonArray: resultValueJSON)
                     print(errors ?? "(no errors)")
+                }
                 }
         }
     }
