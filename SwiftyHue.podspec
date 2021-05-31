@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = "SwiftyHue"
-  s.version          = "0.6.0"
+  s.version          = "0.6.1"
   s.summary          = "Philips Hue SDK written in swift."
 
 # This description is used to generate tags and improve search results.
@@ -26,7 +26,7 @@ Pod::Spec.new do |s|
 
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
-  s.ios.deployment_target = '9.0'
+  s.ios.deployment_target = '10.0'
   s.tvos.deployment_target = '9.0'
   s.osx.deployment_target = '10.11'
 
@@ -37,7 +37,7 @@ Pod::Spec.new do |s|
 
   s.subspec 'Base' do |base|
 
-    base.ios.deployment_target = '9.0'
+    base.ios.deployment_target = '10.0'
     base.tvos.deployment_target = '9.0'
     base.watchos.deployment_target = '2.2'
     base.osx.deployment_target = '10.11'
@@ -50,7 +50,7 @@ Pod::Spec.new do |s|
   s.subspec 'BridgeServices' do |bridgeservices|
     bridgeservices.source_files   = 'Sources/BridgeServices/**/*.{h,swift}'
 
-    bridgeservices.ios.deployment_target = '9.0'
+    bridgeservices.ios.deployment_target = '10.0'
     bridgeservices.tvos.deployment_target = '9.0'
     bridgeservices.osx.deployment_target = '10.11'
 
