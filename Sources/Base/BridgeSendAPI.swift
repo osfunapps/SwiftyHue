@@ -40,7 +40,7 @@ public class BridgeSendAPI {
 
         let url = "http://\(bridgeAccessConfig.ipAddress)/api/\(bridgeAccessConfig.username)/groups/0/action"
 
-        Alamofire.request(url, method: .get, parameters: parameters, encoding: JSONEncoding.default)
+        AF.request(url, method: .get, parameters: parameters, encoding: JSONEncoding.default)
             .responseJSON { response in
                 
                 completionHandler(self.errorsFromResponse(response))
@@ -58,7 +58,7 @@ public class BridgeSendAPI {
         let parameters = ["scene": identifier]
         let url = "http://\(bridgeAccessConfig.ipAddress)/api/\(bridgeAccessConfig.username)/groups/\(groupIdentifier)/action"
 
-        Alamofire.request(url, method: .put, parameters: parameters, encoding: JSONEncoding.default)
+        AF.request(url, method: .put, parameters: parameters, encoding: JSONEncoding.default)
             .responseJSON { response in
                 
                 completionHandler(self.errorsFromResponse(response))
@@ -82,14 +82,15 @@ public class BridgeSendAPI {
         parameters["picture"] = picture
         parameters["appdata"] = appData?.toJSON()
 
-        Alamofire.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default)
+        AF.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default)
             .responseJSON { response in
-                
                 var sceneIdentifier: String?
-                if let responseItemJSONs = response.result.value as? [JSON] {
+                if case .success(let data) = response.result {
+                if let responseItemJSONs = data as? [JSON] {
                     if let success = responseItemJSONs[0]["success"] as? JSON {
                         sceneIdentifier = success["id"] as? String
                     }
+                }
                 }
                 completionHandler(sceneIdentifier, self.errorsFromResponse(response))
         }
@@ -107,7 +108,7 @@ public class BridgeSendAPI {
         
         let url = "http://\(bridgeAccessConfig.ipAddress)/api/\(bridgeAccessConfig.username)/scenes/\(sceneIdentifier)/lightstates/\(lightIdentifier)"
         
-        Alamofire.request(url, method: .put, parameters: parameters, encoding: JSONEncoding.default)
+        AF.request(url, method: .put, parameters: parameters, encoding: JSONEncoding.default)
             .responseJSON { response in
                 
                 completionHandler(self.errorsFromResponse(response))
@@ -136,7 +137,7 @@ public class BridgeSendAPI {
 
         let url = "http://\(bridgeAccessConfig.ipAddress)/api/\(bridgeAccessConfig.username)/lights/\(identifier)/state"
 
-        Alamofire.request(url, method: .put, parameters: parameters, encoding: JSONEncoding.default)
+        AF.request(url, method: .put, parameters: parameters, encoding: JSONEncoding.default)
             .responseJSON { response in
                 
                 completionHandler(self.errorsFromResponse(response))
@@ -161,7 +162,7 @@ public class BridgeSendAPI {
             , "lights": lightIds]
         let url = "http://\(bridgeAccessConfig.ipAddress)/api/\(bridgeAccessConfig.username)/groups"
         
-        Alamofire.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default)
+        AF.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default)
             .responseJSON { response in
                 
                 completionHandler(self.errorsFromResponse(response))
@@ -180,7 +181,7 @@ public class BridgeSendAPI {
             , "lights": lightIds]
         let url = "http://\(bridgeAccessConfig.ipAddress)/api/\(bridgeAccessConfig.username)/groups"
 
-        Alamofire.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default)
+        AF.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default)
             .responseJSON { response in
                 
                 completionHandler(self.errorsFromResponse(response))
@@ -202,7 +203,7 @@ public class BridgeSendAPI {
         parameters["name"] = newName;
         parameters["lights"] = newLightIdentifiers;
         
-        Alamofire.request(url, method: .put, parameters: parameters, encoding: JSONEncoding.default)
+        AF.request(url, method: .put, parameters: parameters, encoding: JSONEncoding.default)
             .responseJSON { response in
                 
                 completionHandler(self.errorsFromResponse(response))
@@ -227,7 +228,7 @@ public class BridgeSendAPI {
         parameters["class"] = newRoomClass?.rawValue;
         parameters["lights"] = newLightIdentifiers;
         
-        Alamofire.request(url, method: .put, parameters: parameters, encoding: JSONEncoding.default)
+        AF.request(url, method: .put, parameters: parameters, encoding: JSONEncoding.default)
             .responseJSON { response in
                 
                 completionHandler(self.errorsFromResponse(response))
@@ -249,7 +250,7 @@ public class BridgeSendAPI {
         let parameters = lightState.toJSON()!
         let url = "http://\(bridgeAccessConfig.ipAddress)/api/\(bridgeAccessConfig.username)/groups/\(identifier)/action"
         
-        Alamofire.request(url, method: .put, parameters: parameters, encoding: JSONEncoding.default)
+        AF.request(url, method: .put, parameters: parameters, encoding: JSONEncoding.default)
             .responseJSON { response in
                 
                 completionHandler(self.errorsFromResponse(response))
@@ -272,7 +273,7 @@ public class BridgeSendAPI {
         parameters["conditions"] = conditions.toJSONArray();
         parameters["actions"] = actions.toJSONArray();
         
-        Alamofire.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default)
+        AF.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default)
             .responseJSON { response in
                 
                 completionHandler(self.errorsFromResponse(response))
@@ -294,7 +295,7 @@ public class BridgeSendAPI {
         parameters["conditions"] = newConditions?.toJSONArray();
         parameters["actions"] = newActions?.toJSONArray();
         
-        Alamofire.request(url, method: .put, parameters: parameters, encoding: JSONEncoding.default)
+        AF.request(url, method: .put, parameters: parameters, encoding: JSONEncoding.default)
             .responseJSON { response in
                 
                 completionHandler(self.errorsFromResponse(response))
@@ -321,7 +322,7 @@ public class BridgeSendAPI {
         parameters["name"] = name;
         parameters["command"] = command.toJSON();
         
-        Alamofire.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default)
+        AF.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default)
             .responseJSON { response in
                 
                 completionHandler(self.errorsFromResponse(response))
@@ -341,7 +342,7 @@ public class BridgeSendAPI {
         parameters["name"] = newName;
         parameters["command"] = newCommand.toJSON();
         
-        Alamofire.request(url, method: .put, parameters: parameters, encoding: JSONEncoding.default)
+        AF.request(url, method: .put, parameters: parameters, encoding: JSONEncoding.default)
             .responseJSON { response in
                 
                 completionHandler(self.errorsFromResponse(response))
@@ -369,12 +370,13 @@ public class BridgeSendAPI {
 
     // MARK: Helpers
     
-    private func errorsFromResponse(_ response: DataResponse<Any>) -> [Error]? {
-        
+    private func errorsFromResponse(_ response: AFDataResponse<Any>) -> [Error]? {
         var errors: [HueError]?
-        if let responseItemJSONs = response.result.value as? [JSON] {
-            
-            errors = [HueError].from(jsonArray: responseItemJSONs)
+        if case .success(let data) = response.result {
+            if let responseItemJSONs = data as? [JSON] {
+                
+                errors = [HueError].from(jsonArray: responseItemJSONs)
+            }
         }
         
         if let errors = errors, errors.count > 0 {
@@ -397,10 +399,10 @@ public class BridgeSendAPI {
 
         let url = "http://\(bridgeAccessConfig.ipAddress)/api/\(bridgeAccessConfig.username)/\(resourceTypeForURL)/\(identifier)"
 
-        Alamofire.request(url, method: .delete, encoding: JSONEncoding.default)
+        AF.request(url, method: .delete, encoding: JSONEncoding.default)
             .responseJSON { response in
                 
-            completionHandler(self.errorsFromResponse(response))
+                completionHandler(self.errorsFromResponse(response))
         }
     }
     
